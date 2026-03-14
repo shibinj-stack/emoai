@@ -6,7 +6,7 @@
    No UI changes — purely internal smart fallback logic.
    ============================================================ */
 
-const API_URL = 'http://localhost:10000/api/predict';
+const API_URL = 'https://emoai.onrender.com/api/predict';
 
 const EMOTIONS = {
   happy:    { color: '#f9c74f', emoji: '😊', label: 'Happy' },
@@ -31,7 +31,7 @@ const state = {
 
 // ── Server health check ───────────────────────────────────────
 window.addEventListener('load', () => {
-  fetch('http://localhost:10000/health')
+  fetch('https://emoai.onrender.com/health')
     .then(r => r.json())
     .then(() => {
       document.getElementById('serverStatus').textContent = 'ML Engine Ready';

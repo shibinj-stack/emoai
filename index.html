@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EmoAI — Emotion Detection</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Background blobs -->
+<div class="bg-blobs" aria-hidden="true">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <div class="logo-icon">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <rect x="1" y="1" width="8" height="8" rx="2" stroke="white" stroke-width="1.5" fill="rgba(255,255,255,0.1)"/>
+          <rect x="13" y="1" width="8" height="8" rx="2" stroke="white" stroke-width="1.5" fill="rgba(255,255,255,0.1)"/>
+          <rect x="1" y="13" width="8" height="8" rx="2" stroke="white" stroke-width="1.5" fill="rgba(255,255,255,0.1)"/>
+          <rect x="13" y="13" width="8" height="8" rx="2" fill="white"/>
+        </svg>
+      </div>
+      <div class="logo-text-wrap">
+        <div class="logo-name">Emo<span>AI</span></div>
+        <div class="logo-tag">EMOTION DETECTION FROM KEYBOARD TYPING PATTERN</div>
+      </div>
+    </div>
+    <div class="status-pill">
+      <div class="status-dot" id="statusDot"></div>
+      <span id="serverStatus">Connecting...</span>
+    </div>
+  </header>
+
+  <!-- MAIN CAPTURE CARD -->
+  <div class="glass-card">
+    <div class="typing-area">
+      <span id="keyCount" style="display:none">0 keystrokes captured</span>
+
+      <!-- Original bar visualizer -->
+      <div class="keystroke-viz" id="keystrokeViz"></div>
+
+      <textarea id="typingInput"
+        placeholder="Start typing here..."
+        spellcheck="false"></textarea>
+    </div>
+
+    <div class="metrics-strip">
+      <div class="metric">
+        <span class="metric-label">Typing Speed</span>
+        <span class="metric-value" id="wpm">—</span>
+        <span class="metric-unit">WPM</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Avg. Dwell</span>
+        <span class="metric-value" id="dwellTime">—</span>
+        <span class="metric-unit">ms / key</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Pause Events</span>
+        <span class="metric-value" id="pauseCount">0</span>
+        <span class="metric-unit">detected</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">Rhythm Score</span>
+        <span class="metric-value" id="rhythmScore">—</span>
+        <span class="metric-unit">/ 100</span>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <button class="btn-analyze" id="analyzeBtn" disabled onclick="analyzeEmotion()">
+        Analyze Emotion →
+      </button>
+      <button class="btn-reset" onclick="resetAll()">Reset</button>
+    </div>
+  </div>
+
+  <!-- RESULT PANEL -->
+  <div class="result-panel" id="resultPanel">
+    <div class="glass-card result-card">
+
+      <div class="result-header">
+        <div class="emotion-badge" id="emotionBadge"></div>
+        <div class="result-info">
+          <div class="result-label">Detected Emotion</div>
+          <div class="result-emotion" id="emotionLabel">—</div>
+          <div class="confidence-bar-wrap">
+            <div class="confidence-bar">
+              <div class="confidence-fill" id="confidenceFill"></div>
+            </div>
+            <span class="confidence-pct" id="confidencePct">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="emotion-breakdown" id="emotionBreakdown"></div>
+
+      <div class="insight-block">
+        <div class="insight-icon">💡</div>
+        <div class="insight-text" id="insightText"></div>
+      </div>
+
+      <div class="feature-panel" id="featurePanel"></div>
+
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="how-section">
+    <div class="section-label">// How it works</div>
+    <div class="features-grid">
+      <div class="feature-item glass-card-sm">
+        <div class="feature-icon">🔤</div>
+        <div class="feature-title">Keyword Scan</div>
+        <div class="feature-desc">First checks your typed words against 140+ emotion keywords. If a clear match is found, the result is shown instantly.</div>
+      </div>
+      <div class="feature-item glass-card-sm">
+        <div class="feature-icon">🔀</div>
+        <div class="feature-title">Smart Fallback</div>
+        <div class="feature-desc">If keywords are mixed or absent, the system automatically falls back to LSTM keystroke analysis — no action needed.</div>
+      </div>
+      <div class="feature-item glass-card-sm">
+        <div class="feature-icon">🧠</div>
+        <div class="feature-title">LSTM Analysis</div>
+        <div class="feature-desc">BiLSTM analyzes 9 keystroke features — speed, rhythm, dwell, pauses — to classify your emotion from typing behavior.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loader-ring"></div>
+  <div class="loader-text" id="loadingText">Analyzing...</div>
+</div>
+
+<script src="keywords.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

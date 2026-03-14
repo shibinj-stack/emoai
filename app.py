@@ -12,7 +12,7 @@
 import os
 import pickle
 import numpy as np
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
 import tensorflow as tf
@@ -26,8 +26,17 @@ from feature_extractor import (
     TIMESTEPS,
 )
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.')
 CORS(app)   # Allow all origins (frontend can call freely)
+
+# ── Serve frontend static files ───────────────────────────────
+@app.route('/')
+def index():
+    return send_from_directory('.', 'index.html')
+
+@app.route('/<path:filename>')
+def static_files(filename):
+    return send_from_directory('.', filename)
 
 # ── Load model and scaler on startup ─────────────────────────
 MODEL_PATH  = os.path.join('model', 'lstm_model.keras')
